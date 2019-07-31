@@ -73,8 +73,34 @@ function getAlumnos(req, res){
     });
 }
 
+
+/*-----------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------*/
+function getAlumno(req, res){
+    var alumnoId = req.params.id;
+
+    Alumno.findById(alumnoId).populate({path: 'user'}).exec((err, alumno) => {
+        if(err){
+            res.status(500).send({
+                message: 'Error en la petición'
+            });
+        }else{
+            if(!alumno){
+                res.status(404).send({
+                    message: 'El Alumno no existe'
+                });
+            }else{
+                res.status(200).send({
+                    alumno
+                });
+            }
+        }
+    });
+}
+
 module.exports = {
     pruebas,
     saveAlumno,
-    getAlumnos
+    getAlumnos,
+    getAlumno
 };

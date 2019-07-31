@@ -13,5 +13,6 @@ var md_upload = multipart({ uploadDir: './uploads/alumnos'});
 api.get('/pruebas-alumnos', md_auth.ensureAuth, AlumnoContoller.pruebas);
 api.post('/alumno', md_auth.ensureAuth,AlumnoContoller.saveAlumno);
 api.get('/alumnos', AlumnoContoller.getAlumnos);
+api.get('/alumno/:id', AlumnoContoller.getAlumno);
 
 module.exports = api;
