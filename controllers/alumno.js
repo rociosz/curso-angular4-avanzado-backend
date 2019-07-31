@@ -184,6 +184,25 @@ function getImageFile(req, res){
     });
 }
 
+
+/*-----------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------*/
+function deleteAlumno(req, res){
+    var alumnoId = req.params.id;
+
+    Alumno.findByIdAndRemove(alumnoId, (err, alumnoRemoved) => {
+        if(err){
+            res.status(500).send({message: 'Error en la peticion'});
+        }else{
+            if(!alumnoRemoved){
+                res.status(404).send({message: 'No se ha borrado el Alumno'});
+            }else{
+                res.status(200).send({alumno: alumnoRemoved});
+            }
+        }
+    });
+}
+
 module.exports = {
     pruebas,
     saveAlumno,
@@ -191,5 +210,6 @@ module.exports = {
     getAlumno,
     updateAlumno,
     uploadImage,
-    getImageFile
+    getImageFile,
+    deleteAlumno
 };
