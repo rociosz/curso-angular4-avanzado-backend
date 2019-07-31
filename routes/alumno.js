@@ -15,5 +15,7 @@ api.post('/alumno', md_auth.ensureAuth, AlumnoContoller.saveAlumno);
 api.get('/alumnos', AlumnoContoller.getAlumnos);
 api.get('/alumno/:id', AlumnoContoller.getAlumno);
 api.put('/alumno/:id', md_auth.ensureAuth, AlumnoContoller.updateAlumno);
+api.post('/upload-image-alumno/:id', [md_auth.ensureAuth, md_upload], AlumnoContoller.uploadImage);
+api.get('/get-image-alumno/:imageFile', AlumnoContoller.getImageFile);
 
 module.exports = api;

@@ -122,10 +122,74 @@ function updateAlumno(req, res){
     });
 }
 
+
+/*-----------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------*/
+function uploadImage(req, res){
+    var alumnoId = req.params.id;
+    var file_name = 'No subido...';
+
+    if(req.files){
+        var file_path = req.files.image.path;
+        var file_split = file_path.split('\\');
+        var file_name = file_split[2];
+
+        var ext_split = file_name.split('\.');
+        var file_ext = ext_split[1];
+
+        if(file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg'  || file_ext == 'gif'){
+
+            Alumno.findByIdAndUpdate(alumnoId,{image: file_name}, {new:true}, (err, alumnoUpdate) => {
+                if(err){
+                    res.status(500).send({
+                        message: 'Error al actualizar usuario'
+                    });
+                }else{
+                    if(!alumnoUpdate){
+                        res.status(404).send({message: 'No se ha podido actualizar el Alumno'});
+                    }else{
+                        res.status(200).send({user:alumnoUpdate, image: file_name});
+                    }
+                }
+            });
+
+        }else{
+            fs.unlink(file_path, (err) => {
+                if(err){
+                    res.status(200).send({message: 'Extensión no valida y fichero no borrado'});
+                }else{
+                    res.status(200).send({message: 'Extensión no valida'});
+                }
+            });           
+        }
+
+    }else{
+        res.status(200).send({message: 'No se han subido archivos'});
+    } 
+}
+
+
+/*-----------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------*/
+function getImageFile(req, res){
+    var imageFile = req.params.imageFile;
+    var path_file = './uploads/alumnos/'+imageFile;
+
+    fs.exists(path_file, function(exists){
+        if(exists){
+            res.sendFile(path.resolve(path_file));
+        }else{
+            res.status(404).send({message: 'La imagen no existe'});
+        }
+    });
+}
+
 module.exports = {
     pruebas,
     saveAlumno,
     getAlumnos,
     getAlumno,
-    updateAlumno
+    updateAlumno,
+    uploadImage,
+    getImageFile
 };
