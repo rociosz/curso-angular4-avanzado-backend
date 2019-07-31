@@ -50,7 +50,31 @@ function saveAlumno(req, res){
     }
 }
 
+
+/*-----------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------*/
+function getAlumnos(req, res){
+    Alumno.find({}).populate({path: 'user'}).exec((err, alumnos) =>{
+        if(err){
+            res.status(500).send({
+                message: 'Error en la petición'
+            });
+        }else{
+            if(!alumnos){
+                res.status(404).send({
+                    message: 'No hay Alumnos'
+                });
+            }else{
+                res.status(200).send({
+                    alumnos
+                });
+            }
+        }
+    });
+}
+
 module.exports = {
     pruebas,
-    saveAlumno
+    saveAlumno,
+    getAlumnos
 };

@@ -12,5 +12,6 @@ var md_upload = multipart({ uploadDir: './uploads/alumnos'});
 //Son rutas
 api.get('/pruebas-alumnos', md_auth.ensureAuth, AlumnoContoller.pruebas);
 api.post('/alumno', md_auth.ensureAuth,AlumnoContoller.saveAlumno);
+api.get('/alumnos', AlumnoContoller.getAlumnos);
 
 module.exports = api;
