@@ -216,11 +216,28 @@ function getImageFile(req, res){
 }
 
 
+/*-----------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------*/
+function getProfesores(req, res){
+    User.find({role: 'ROLE_ADMIN'}).exec((err, users) => {
+        if(err){
+            res.status(500).send({message: 'Error en la peticion'});
+        }else{
+            if(!users){
+                res.status(404).send({message: 'No hay Profesores'});
+            }else{
+                res.status(200).send({users});
+            }
+        }
+    });
+}
+
 module.exports = {
     pruebas,
     saveUser,
     login,
     updateUser,
     uploadImage,
-    getImageFile
+    getImageFile,
+    getProfesores
 };
