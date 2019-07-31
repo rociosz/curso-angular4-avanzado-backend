@@ -98,9 +98,34 @@ function getAlumno(req, res){
     });
 }
 
+
+/*-----------------------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------*/
+function updateAlumno(req, res){
+    var alumnoId = req.params.id;
+    var update = req.body;
+
+    Alumno.findByIdAndUpdate(alumnoId, update, {new: true}, (err, alumnoUpdated) => {
+        if(err){
+            res.status(500).send({
+                message: 'Error en la peticion'
+            });
+        }else{
+            if(!alumnoUpdated){
+                res.status(404).send({
+                    message: 'No se ha actualizado el Alumno'
+                });
+            }else{
+                res.status(200).send({alumno: alumnoUpdated});
+            }
+        }
+    });
+}
+
 module.exports = {
     pruebas,
     saveAlumno,
     getAlumnos,
-    getAlumno
+    getAlumno,
+    updateAlumno
 };
